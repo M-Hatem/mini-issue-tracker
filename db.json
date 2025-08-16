@@ -1,0 +1,404 @@
+{
+  "issues": [
+    {
+      "id": 1,
+      "title": "Fix login authentication bug",
+      "description": "Users are experiencing issues with login authentication. The system is not properly validating credentials and sometimes allows access with incorrect passwords.",
+      "status": "In Progress",
+      "priority": "High",
+      "assignee": "John Smith",
+      "creationDate": "2024-01-15T09:30:00Z",
+      "updateDate": "2024-01-20T14:45:00Z"
+    },
+    {
+      "id": 2,
+      "title": "Implement user dashboard",
+      "description": "Create a comprehensive user dashboard that displays user profile information, recent activities, and quick access to common features.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Sarah Johnson",
+      "creationDate": "2024-01-16T11:15:00Z",
+      "updateDate": "2024-01-16T11:15:00Z"
+    },
+    {
+      "id": 3,
+      "title": "Database performance optimization",
+      "description": "Optimize database queries and indexes to improve overall application performance. Current response times are exceeding acceptable thresholds.",
+      "status": "In Progress",
+      "priority": "High",
+      "assignee": "Mike Chen",
+      "creationDate": "2024-01-17T08:45:00Z",
+      "updateDate": "2024-01-22T16:20:00Z"
+    },
+    {
+      "id": 4,
+      "title": "Add dark mode support",
+      "description": "Implement dark mode theme option for the application interface. Should include toggle functionality and persistent user preference storage.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Emily Davis",
+      "creationDate": "2024-01-18T13:20:00Z",
+      "updateDate": "2024-01-18T13:20:00Z"
+    },
+    {
+      "id": 5,
+      "title": "Fix mobile responsive issues",
+      "description": "Several UI components are not properly responsive on mobile devices. Need to fix layout issues and ensure proper scaling across different screen sizes.",
+      "status": "In Progress",
+      "priority": "Medium",
+      "assignee": "Alex Rodriguez",
+      "creationDate": "2024-01-19T10:30:00Z",
+      "updateDate": "2024-01-21T15:10:00Z"
+    },
+    {
+      "id": 6,
+      "title": "Implement file upload feature",
+      "description": "Add capability for users to upload and manage files within the application. Should include file type validation and size restrictions.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Lisa Wang",
+      "creationDate": "2024-01-20T14:00:00Z",
+      "updateDate": "2024-01-20T14:00:00Z"
+    },
+    {
+      "id": 7,
+      "title": "Security vulnerability patch",
+      "description": "Critical security vulnerability discovered in user input validation. Need immediate patch to prevent potential data breaches.",
+      "status": "Done",
+      "priority": "Critical",
+      "assignee": "David Thompson",
+      "creationDate": "2024-01-21T09:00:00Z",
+      "updateDate": "2024-01-21T17:30:00Z"
+    },
+    {
+      "id": 8,
+      "title": "Add email notifications",
+      "description": "Implement email notification system for important events like password changes, account updates, and system announcements.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Rachel Green",
+      "creationDate": "2024-01-22T11:45:00Z",
+      "updateDate": "2024-01-22T11:45:00Z"
+    },
+    {
+      "id": 9,
+      "title": "Fix search functionality",
+      "description": "Search feature is not returning accurate results and sometimes crashes when searching for special characters or long queries.",
+      "status": "In Progress",
+      "priority": "High",
+      "assignee": "Tom Wilson",
+      "creationDate": "2024-01-23T08:15:00Z",
+      "updateDate": "2024-01-24T12:30:00Z"
+    },
+    {
+      "id": 10,
+      "title": "Update API documentation",
+      "description": "Current API documentation is outdated and missing several endpoints. Need comprehensive update with examples and error codes.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Kevin Brown",
+      "creationDate": "2024-01-24T15:20:00Z",
+      "updateDate": "2024-01-24T15:20:00Z"
+    },
+    {
+      "id": 11,
+      "title": "Implement user roles and permissions",
+      "description": "Create role-based access control system with different permission levels for administrators, moderators, and regular users.",
+      "status": "In Progress",
+      "priority": "High",
+      "assignee": "Jennifer Lee",
+      "creationDate": "2024-01-25T10:00:00Z",
+      "updateDate": "2024-01-26T14:15:00Z"
+    },
+    {
+      "id": 12,
+      "title": "Add data export functionality",
+      "description": "Allow users to export their data in various formats (CSV, JSON, PDF) for backup or analysis purposes.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Mark Anderson",
+      "creationDate": "2024-01-26T13:30:00Z",
+      "updateDate": "2024-01-26T13:30:00Z"
+    },
+    {
+      "id": 13,
+      "title": "Fix timezone display issues",
+      "description": "Application is not properly handling different timezones, causing confusion in date and time displays across different regions.",
+      "status": "In Progress",
+      "priority": "Medium",
+      "assignee": "Sophie Martin",
+      "creationDate": "2024-01-27T09:45:00Z",
+      "updateDate": "2024-01-28T11:20:00Z"
+    },
+    {
+      "id": 14,
+      "title": "Implement two-factor authentication",
+      "description": "Add 2FA support using SMS or authenticator apps to enhance account security for all users.",
+      "status": "To Do",
+      "priority": "High",
+      "assignee": "Chris Taylor",
+      "creationDate": "2024-01-28T16:00:00Z",
+      "updateDate": "2024-01-28T16:00:00Z"
+    },
+    {
+      "id": 15,
+      "title": "Add social media integration",
+      "description": "Integrate social media platforms for easier user registration and sharing capabilities.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Amanda White",
+      "creationDate": "2024-01-29T12:15:00Z",
+      "updateDate": "2024-01-29T12:15:00Z"
+    },
+    {
+      "id": 16,
+      "title": "Fix memory leak in image processing",
+      "description": "Image upload and processing functionality is causing memory leaks that eventually crash the application after extended use.",
+      "status": "Done",
+      "priority": "Critical",
+      "assignee": "Robert Garcia",
+      "creationDate": "2024-01-30T08:30:00Z",
+      "updateDate": "2024-01-31T18:45:00Z"
+    },
+    {
+      "id": 17,
+      "title": "Implement real-time chat",
+      "description": "Add real-time chat functionality between users with support for text, emojis, and file sharing.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Michelle Kim",
+      "creationDate": "2024-02-01T10:45:00Z",
+      "updateDate": "2024-02-01T10:45:00Z"
+    },
+    {
+      "id": 18,
+      "title": "Add analytics dashboard",
+      "description": "Create comprehensive analytics dashboard showing user engagement, system performance metrics, and usage statistics.",
+      "status": "In Progress",
+      "priority": "Medium",
+      "assignee": "Daniel Clark",
+      "creationDate": "2024-02-02T14:20:00Z",
+      "updateDate": "2024-02-03T09:15:00Z"
+    },
+    {
+      "id": 19,
+      "title": "Fix payment processing errors",
+      "description": "Users are experiencing failures during payment processing. Need to investigate and fix the integration with payment gateway.",
+      "status": "In Progress",
+      "priority": "High",
+      "assignee": "Jessica Moore",
+      "creationDate": "2024-02-03T11:00:00Z",
+      "updateDate": "2024-02-04T16:30:00Z"
+    },
+    {
+      "id": 20,
+      "title": "Implement automated testing",
+      "description": "Set up comprehensive automated testing suite including unit tests, integration tests, and end-to-end tests for all critical functionality.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Ryan Johnson",
+      "creationDate": "2024-02-04T13:45:00Z",
+      "updateDate": "2024-02-04T13:45:00Z"
+    },
+    {
+      "id": 21,
+      "title": "Add multi-language support",
+      "description": "Implement internationalization (i18n) to support multiple languages including Spanish, French, German, and Chinese.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Maria Gonzalez",
+      "creationDate": "2024-02-05T09:30:00Z",
+      "updateDate": "2024-02-05T09:30:00Z"
+    },
+    {
+      "id": 22,
+      "title": "Fix notification delivery",
+      "description": "Push notifications are not being delivered consistently across different devices and browsers.",
+      "status": "In Progress",
+      "priority": "Medium",
+      "assignee": "Andrew Lewis",
+      "creationDate": "2024-02-06T15:15:00Z",
+      "updateDate": "2024-02-07T10:45:00Z"
+    },
+    {
+      "id": 23,
+      "title": "Implement backup system",
+      "description": "Create automated backup system for user data and system configurations with scheduled backups and recovery procedures.",
+      "status": "To Do",
+      "priority": "High",
+      "assignee": "Stephanie Hall",
+      "creationDate": "2024-02-07T12:00:00Z",
+      "updateDate": "2024-02-07T12:00:00Z"
+    },
+    {
+      "id": 24,
+      "title": "Add progress tracking",
+      "description": "Implement progress tracking system for long-running tasks with percentage completion and estimated time remaining.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Nathan Wright",
+      "creationDate": "2024-02-08T08:45:00Z",
+      "updateDate": "2024-02-08T08:45:00Z"
+    },
+    {
+      "id": 25,
+      "title": "Fix calendar sync issues",
+      "description": "Calendar integration is not properly syncing with external calendar applications like Google Calendar and Outlook.",
+      "status": "In Progress",
+      "priority": "Medium",
+      "assignee": "Olivia Turner",
+      "creationDate": "2024-02-09T14:30:00Z",
+      "updateDate": "2024-02-10T11:20:00Z"
+    },
+    {
+      "id": 26,
+      "title": "Implement audit logging",
+      "description": "Add comprehensive audit logging system to track all user actions, system changes, and security events for compliance purposes.",
+      "status": "To Do",
+      "priority": "High",
+      "assignee": "Brian Adams",
+      "creationDate": "2024-02-10T10:15:00Z",
+      "updateDate": "2024-02-10T10:15:00Z"
+    },
+    {
+      "id": 27,
+      "title": "Add keyboard shortcuts",
+      "description": "Implement keyboard shortcuts for common actions to improve user productivity and accessibility.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Catherine Scott",
+      "creationDate": "2024-02-11T16:00:00Z",
+      "updateDate": "2024-02-11T16:00:00Z"
+    },
+    {
+      "id": 28,
+      "title": "Fix video playback issues",
+      "description": "Video content is not playing properly on certain browsers and devices. Need to fix compatibility issues.",
+      "status": "In Progress",
+      "priority": "Medium",
+      "assignee": "James Mitchell",
+      "creationDate": "2024-02-12T09:00:00Z",
+      "updateDate": "2024-02-13T13:45:00Z"
+    },
+    {
+      "id": 29,
+      "title": "Implement data validation",
+      "description": "Add comprehensive client-side and server-side data validation to prevent invalid data entry and improve data quality.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Ashley Roberts",
+      "creationDate": "2024-02-13T11:30:00Z",
+      "updateDate": "2024-02-13T11:30:00Z"
+    },
+    {
+      "id": 30,
+      "title": "Add report generation",
+      "description": "Create system for generating customizable reports with various data visualizations and export options.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Brandon Phillips",
+      "creationDate": "2024-02-14T14:15:00Z",
+      "updateDate": "2024-02-14T14:15:00Z"
+    },
+    {
+      "id": 31,
+      "title": "Fix API rate limiting",
+      "description": "API rate limiting is too restrictive and is blocking legitimate users. Need to adjust thresholds and implement better detection.",
+      "status": "In Progress",
+      "priority": "High",
+      "assignee": "Nicole Carter",
+      "creationDate": "2024-02-15T08:30:00Z",
+      "updateDate": "2024-02-16T15:20:00Z"
+    },
+    {
+      "id": 32,
+      "title": "Implement caching system",
+      "description": "Add intelligent caching system to improve application performance and reduce database load for frequently accessed data.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Eric Martinez",
+      "creationDate": "2024-02-16T12:45:00Z",
+      "updateDate": "2024-02-16T12:45:00Z"
+    },
+    {
+      "id": 33,
+      "title": "Add accessibility features",
+      "description": "Implement WCAG 2.1 compliance features including screen reader support, keyboard navigation, and high contrast mode.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Laura Thompson",
+      "creationDate": "2024-02-17T10:00:00Z",
+      "updateDate": "2024-02-17T10:00:00Z"
+    },
+    {
+      "id": 34,
+      "title": "Fix email template rendering",
+      "description": "Email templates are not rendering properly in various email clients, causing formatting issues and broken layouts.",
+      "status": "In Progress",
+      "priority": "Medium",
+      "assignee": "Gregory Young",
+      "creationDate": "2024-02-18T15:30:00Z",
+      "updateDate": "2024-02-19T09:15:00Z"
+    },
+    {
+      "id": 35,
+      "title": "Implement data archiving",
+      "description": "Create system for archiving old data to improve performance and reduce storage costs while maintaining data accessibility.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Rebecca Allen",
+      "creationDate": "2024-02-19T13:00:00Z",
+      "updateDate": "2024-02-19T13:00:00Z"
+    },
+    {
+      "id": 36,
+      "title": "Add mobile app",
+      "description": "Develop native mobile applications for iOS and Android platforms to provide better user experience on mobile devices.",
+      "status": "To Do",
+      "priority": "High",
+      "assignee": "Patrick King",
+      "creationDate": "2024-02-20T11:15:00Z",
+      "updateDate": "2024-02-20T11:15:00Z"
+    },
+    {
+      "id": 37,
+      "title": "Fix SSL certificate issues",
+      "description": "SSL certificate is expiring soon and there are compatibility issues with some older browsers and systems.",
+      "status": "Done",
+      "priority": "Critical",
+      "assignee": "Samantha Baker",
+      "creationDate": "2024-02-21T08:00:00Z",
+      "updateDate": "2024-02-21T16:45:00Z"
+    },
+    {
+      "id": 38,
+      "title": "Implement webhook system",
+      "description": "Create webhook system to allow third-party integrations to receive real-time notifications about system events.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Jonathan Evans",
+      "creationDate": "2024-02-22T14:45:00Z",
+      "updateDate": "2024-02-22T14:45:00Z"
+    },
+    {
+      "id": 39,
+      "title": "Add data import functionality",
+      "description": "Allow users to import data from various file formats (CSV, Excel, JSON) with validation and error handling.",
+      "status": "To Do",
+      "priority": "Low",
+      "assignee": "Victoria Cooper",
+      "creationDate": "2024-02-23T10:30:00Z",
+      "updateDate": "2024-02-23T10:30:00Z"
+    },
+    {
+      "id": 40,
+      "title": "Implement feature flags",
+      "description": "Add feature flag system to enable/disable features dynamically and conduct A/B testing for new functionality.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assignee": "Thomas Richardson",
+      "creationDate": "2024-02-24T12:00:00Z",
+      "updateDate": "2024-02-24T12:00:00Z"
+    }
+  ]
+}
