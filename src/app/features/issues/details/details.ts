@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssuesService } from '../../../core/api/issues.service';
 import { Issue } from '../../../core/models/issue.interface';
+import { IssueStyleHelper } from '../../../core/utils/issue-style.helper';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -18,6 +19,11 @@ export class Details implements OnInit {
   protected readonly issue = signal<Issue | null>(null);
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
+
+  protected getPriorityClasses = IssueStyleHelper.getPriorityClasses;
+  protected getStatusClasses = IssueStyleHelper.getStatusClasses;
+  protected getPriorityDisplayText = IssueStyleHelper.getPriorityDisplayText;
+  protected getStatusDisplayText = IssueStyleHelper.getStatusDisplayText;
 
   ngOnInit(): void {
     this.loadIssue();
@@ -83,34 +89,6 @@ export class Details implements OnInit {
           alert('Failed to delete issue. Please try again.');
         },
       });
-    }
-  }
-
-  protected getPriorityColor(priority: string): string {
-    switch (priority) {
-      case 'Critical':
-        return 'bg-red-500';
-      case 'High':
-        return 'bg-orange-500';
-      case 'Medium':
-        return 'bg-yellow-500';
-      case 'Low':
-        return 'bg-green-500';
-      default:
-        return 'bg-gray-500';
-    }
-  }
-
-  protected getStatusColor(status: string): string {
-    switch (status) {
-      case 'Done':
-        return 'bg-green-500';
-      case 'In Progress':
-        return 'bg-blue-500';
-      case 'To Do':
-        return 'bg-gray-500';
-      default:
-        return 'bg-gray-500';
     }
   }
 }

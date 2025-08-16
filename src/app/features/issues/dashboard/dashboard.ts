@@ -1,12 +1,13 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { IssuesService } from '../../../core/api/issues.service';
 import { Issue } from '../../../core/models/issue.interface';
+import { ViewMode } from '../../../core/models/view-mode.enum';
 import { List } from '../list/list';
 import { Kanban } from '../kanban/kanban';
 import { IssueFiltration } from '../issue-filtration/issue-filtration';
 import { InfiniteScrollDirective } from '../../../shared/directives/infinite-scroll.directive';
+import { SearchInput } from '../../../shared/ui/components/search-input/search-input';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,12 +32,13 @@ export class Dashboard implements OnInit {
   protected readonly searchTerm = signal('');
   protected readonly statusFilter = signal<string[]>([]);
 
-  protected readonly viewMode = signal<'list' | 'kanban'>('list');
+  protected readonly viewMode = signal<ViewMode>(ViewMode.LIST);
+  protected readonly ViewMode = ViewMode;
 
   ngOnInit(): void {
     this.initilaizeQueryParams();
 
-    if (this.viewMode() === 'list') {
+    if (this.viewMode() === ViewMode.LIST) {
       this.loadIssues();
     } else {
       this.loadAllIssues();
@@ -45,9 +47,9 @@ export class Dashboard implements OnInit {
 
   private initilaizeQueryParams(): void {
     const params = this.route.snapshot.queryParams;
-    const viewMode = params['view'] as 'list' | 'kanban';
+    const viewMode = params['view'] as ViewMode;
 
-    this.viewMode.set(viewMode || 'list');
+    this.viewMode.set(viewMode || ViewMode.LIST);
 
     const searchTerm = params['search'] as string;
     const statusFilter =
@@ -72,7 +74,7 @@ export class Dashboard implements OnInit {
     this.searchTerm.set(searchValue);
     this.updateUrlQueryParams();
 
-    if (this.viewMode() === 'list') {
+    if (this.viewMode() === ViewMode.LIST) {
       this.currentOffset.set(0);
       this.hasMoreIssues.set(true);
       this.loadIssues();
@@ -85,7 +87,7 @@ export class Dashboard implements OnInit {
     this.statusFilter.set(statuses);
     this.updateUrlQueryParams();
 
-    if (this.viewMode() === 'list') {
+    if (this.viewMode() === ViewMode.LIST) {
       this.currentOffset.set(0);
       this.hasMoreIssues.set(true);
       this.loadIssues();
@@ -119,7 +121,7 @@ export class Dashboard implements OnInit {
     this.statusFilter.set([]);
     this.updateUrlQueryParams();
 
-    if (this.viewMode() === 'list') {
+    if (this.viewMode() === ViewMode.LIST) {
       this.currentOffset.set(0);
       this.hasMoreIssues.set(true);
       this.loadIssues();
@@ -132,7 +134,7 @@ export class Dashboard implements OnInit {
     this.issues.update((currentIssues) => currentIssues.filter((issue) => issue.id !== issueId));
 
     if (
-      this.viewMode() === 'list' &&
+      this.viewMode() === ViewMode.LIST &&
       this.issues().length < this.pageSize() &&
       this.hasMoreIssues()
     ) {
@@ -140,7 +142,9 @@ export class Dashboard implements OnInit {
     }
   }
 
-  protected toggleViewMode(mode: 'list' | 'kanban'): void {
+  protected toggleViewMode(mode: ViewMode): void {
+    if (this.viewMode() === mode) return;
+
     this.viewMode.set(mode);
 
     this.router.navigate([], {
@@ -149,7 +153,7 @@ export class Dashboard implements OnInit {
       replaceUrl: true,
     });
 
-    if (mode === 'list') {
+    if (mode === ViewMode.LIST) {
       this.currentOffset.set(0);
       this.hasMoreIssues.set(true);
       this.loadIssues();
@@ -179,21 +183,19 @@ export class Dashboard implements OnInit {
     const searchTerm = this.searchTerm();
     const statusFilter = this.statusFilter();
 
-    this.issuesService
-      .searchAndFilterIssues(searchTerm, statusFilter, 0, this.pageSize())
-      .subscribe({
-        next: (newIssues) => {
-          this.issues.set(newIssues);
-          this.currentOffset.set(newIssues.length);
-          this.hasMoreIssues.set(newIssues.length === this.pageSize());
-          this.loading.set(false);
-        },
-        error: (err) => {
-          console.error('Error loading issues:', err);
-          this.error.set('Failed to load issues. Please try again later.');
-          this.loading.set(false);
-        },
-      });
+    this.issuesService.fetchIssues(searchTerm, statusFilter, 0, this.pageSize()).subscribe({
+      next: (newIssues) => {
+        this.issues.set(newIssues);
+        this.currentOffset.set(newIssues.length);
+        this.hasMoreIssues.set(newIssues.length === this.pageSize());
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading issues:', err);
+        this.error.set('Failed to load issues. Please try again later.');
+        this.loading.set(false);
+      },
+    });
   }
 
   protected loadAllIssues(): void {
@@ -253,7 +255,7 @@ export class Dashboard implements OnInit {
     const statusFilter = this.statusFilter();
 
     this.issuesService
-      .searchAndFilterIssues(searchTerm, statusFilter, this.currentOffset(), this.pageSize())
+      .fetchIssues(searchTerm, statusFilter, this.currentOffset(), this.pageSize())
       .subscribe({
         next: (newIssues) => {
           if (newIssues.length > 0) {

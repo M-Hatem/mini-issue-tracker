@@ -1,0 +1,102 @@
+<div
+  class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200 cursor-pointer"
+  [class.h-full]="!config().compact"
+  [class.flex]="!config().compact"
+  [class.flex-col]="!config().compact"
+  [class.justify-between]="!config().compact"
+  (click)="onCardClick()"
+  role="button"
+  tabindex="0"
+  [attr.aria-label]="'Issue: ' + issue().title"
+  [attr.aria-describedby]="'issue-desc-' + issue().id"
+>
+  <!-- Issue Header -->
+  <div class="flex items-start justify-between mb-3">
+    <h3
+      [id]="'issue-title-' + issue().id"
+      class="text-sm font-medium text-gray-800 line-clamp-2 flex-1 mr-2"
+      [class.text-lg]="!config().compact"
+      [class.font-semibold]="!config().compact"
+    >
+      {{ issue().title }}
+    </h3>
+    <div class="flex flex-col items-end gap-2">
+      <span
+        class="px-2 py-1 text-xs font-medium text-white rounded-full {{
+          getPriorityClasses(issue().priority)
+        }}"
+        [attr.aria-label]="'Priority: ' + getPriorityDisplayText(issue().priority)"
+      >
+        {{ getPriorityDisplayText(issue().priority) }}
+      </span>
+
+      @if (config().showStatus) {
+      <span
+        class="px-2 py-1 text-xs font-medium text-white rounded-full {{
+          getStatusClasses(issue().status)
+        }}"
+        [attr.aria-label]="'Status: ' + getStatusDisplayText(issue().status)"
+      >
+        {{ getStatusDisplayText(issue().status) }}
+      </span>
+      }
+    </div>
+  </div>
+
+  <!-- Issue Description -->
+  @if (config().showDescription) {
+  <p
+    [id]="'issue-desc-' + issue().id"
+    class="text-gray-600 text-xs mb-3 line-clamp-2"
+    [class.text-sm]="!config().compact"
+    [class.mb-4]="!config().compact"
+  >
+    {{ issue().description }}
+  </p>
+  }
+
+  <!-- Issue Meta -->
+  @if (config().showMeta) {
+  <div class="space-y-2 mb-3">
+    <div class="flex items-center gap-2 text-xs text-gray-500">
+      <i class="pi pi-user text-blue-500" aria-hidden="true"></i>
+      <span aria-label="Assigned to">{{ issue().assignee }}</span>
+    </div>
+    <div class="flex items-center gap-2 text-xs text-gray-500">
+      <i class="pi pi-calendar text-green-500" aria-hidden="true"></i>
+      <span aria-label="Created on">
+        <b>Created :</b> {{ issue().creationDate | date : 'dd/MM/yyyy HH:mm' }}
+      </span>
+    </div>
+    <div class="flex items-center gap-2 text-xs text-gray-500">
+      <i class="pi pi-clock text-red-500" aria-hidden="true"></i>
+      <span aria-label="Updated on">
+        <b>Updated :</b> {{ issue().updateDate | date : 'dd/MM/yyyy HH:mm' }}
+      </span>
+    </div>
+  </div>
+  }
+
+  <!-- Issue Actions -->
+  @if (config().showActions) {
+  <div class="flex gap-2 pt-2 border-t border-gray-100">
+    <button
+      type="button"
+      class="flex-1 cursor-pointer text-xs bg-blue-500 text-white py-2 px-3 rounded hover:bg-blue-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      (click)="onViewDetails($event)"
+      [attr.aria-label]="'View details for issue: ' + issue().title"
+    >
+      View Details
+    </button>
+    <button
+      type="button"
+      class="text-xs cursor-pointer bg-red-500 text-white py-2 px-3 rounded hover:bg-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+      (click)="onDeleteIssue($event)"
+      [attr.aria-label]="'Delete issue: ' + issue().title"
+      title="Delete Issue"
+    >
+      <i class="pi pi-trash" aria-hidden="true"></i>
+    </button>
+  </div>
+  }
+</div>

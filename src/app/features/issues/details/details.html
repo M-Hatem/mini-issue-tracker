@@ -56,7 +56,7 @@
           <div class="flex gap-3">
             <span
               class="px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium text-white rounded-full {{
-                getPriorityColor(issue()?.priority || '')
+                getPriorityClasses(issue()?.priority || '')
               }}"
               [attr.aria-label]="'Priority: ' + (issue()?.priority || '')"
             >
@@ -64,7 +64,7 @@
             </span>
             <span
               class="px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium text-white rounded-full {{
-                getStatusColor(issue()?.status || '')
+                getStatusClasses(issue()?.status || '')
               }}"
               [attr.aria-label]="'Status: ' + (issue()?.status || '')"
             >
@@ -108,7 +108,7 @@
                 <span class="text-gray-600">Current Status:</span>
                 <span
                   class="px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium text-white rounded-full {{
-                    getStatusColor(issue()?.status || '')
+                    getStatusClasses(issue()?.status || '')
                   }}"
                   [attr.aria-label]="'Current status: ' + (issue()?.status || '')"
                 >
@@ -119,7 +119,7 @@
                 <span class="text-gray-600">Priority Level:</span>
                 <span
                   class="px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium text-white rounded-full {{
-                    getPriorityColor(issue()?.priority || '')
+                    getPriorityClasses(issue()?.priority || '')
                   }}"
                   [attr.aria-label]="'Priority level: ' + (issue()?.priority || '')"
                 >
@@ -180,7 +180,7 @@
           <button
             type="button"
             (click)="editIssue()"
-            class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            class="px-6 py-3 cursor-pointer bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             aria-label="Edit this issue"
           >
             <i class="pi pi-pencil" aria-hidden="true"></i>
@@ -189,7 +189,7 @@
           <button
             type="button"
             (click)="deleteIssue()"
-            class="px-6 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            class="px-6 py-3 cursor-pointer bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
             aria-label="Delete this issue"
           >
             <i class="pi pi-trash" aria-hidden="true"></i>
@@ -198,7 +198,7 @@
           <button
             type="button"
             (click)="goBackToList()"
-            class="px-6 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+            class="px-6 py-3 cursor-pointer ms-auto bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
             aria-label="Return to issues list"
           >
             <i class="pi pi-list" aria-hidden="true"></i>

@@ -15,7 +15,7 @@ export class IssuesService {
     return this.http.get<Issue[]>(this.apiUrl);
   }
 
-  searchAndFilterIssues(
+  fetchIssues(
     searchTerm: string,
     statuses: string[],
     offset: number = 0,

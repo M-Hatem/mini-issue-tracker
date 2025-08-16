@@ -3,104 +3,11 @@
   role="region"
   aria-label="Kanban board"
 >
-  @for (column of statusColumns; track column.key) {
-  <div
-    class="bg-gray-50 rounded-lg p-4"
-    role="region"
-    [attr.aria-labelledby]="'column-' + column.key.toLowerCase().replace(' ', '-')"
-  >
-    <!-- Column Header -->
-    <div class="flex items-center justify-between mb-4">
-      <h3
-        [id]="'column-' + column.key.toLowerCase().replace(' ', '-')"
-        class="text-lg font-semibold text-gray-800"
-      >
-        {{ column.title }}
-      </h3>
-      <span
-        class="px-2 py-1 text-xs font-medium text-white rounded-full {{ column.color }}"
-        [attr.aria-label]="
-          column.title + ' column has ' + getIssuesByStatus(column.key).length + ' issues'
-        "
-      >
-        {{ getIssuesByStatus(column.key).length }}
-      </span>
-    </div>
-
-    <!-- Issues in this column -->
-    <div class="space-y-3" role="list" [attr.aria-label]="column.title + ' issues'">
-      @for (issue of getIssuesByStatus(column.key); track issue.id) {
-      <div
-        class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200"
-        role="listitem"
-        [attr.aria-labelledby]="'kanban-issue-title-' + issue.id"
-      >
-        <!-- Issue Header -->
-        <div class="flex items-start justify-between mb-3">
-          <h4
-            [id]="'kanban-issue-title-' + issue.id"
-            class="text-sm font-medium text-gray-800 line-clamp-2 flex-1 mr-2"
-          >
-            {{ issue.title }}
-          </h4>
-          <div class="flex flex-col items-end gap-1">
-            <span
-              class="px-2 py-1 text-xs font-medium text-white rounded-full {{
-                getPriorityColor(issue.priority)
-              }}"
-              [attr.aria-label]="'Priority: ' + issue.priority"
-            >
-              {{ issue.priority }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Issue Description -->
-        <p class="text-gray-600 text-xs mb-3 line-clamp-2">{{ issue.description }}</p>
-
-        <!-- Issue Meta -->
-        <div class="space-y-2 mb-3">
-          <div class="flex items-center gap-2 text-xs text-gray-500">
-            <i class="pi pi-user text-blue-500" aria-hidden="true"></i>
-            <span aria-label="Assigned to">{{ issue.assignee }}</span>
-          </div>
-          <div class="flex items-center gap-2 text-xs text-gray-500">
-            <i class="pi pi-calendar text-green-500" aria-hidden="true"></i>
-            <span aria-label="Created on">{{ issue.creationDate | date : 'shortDate' }}</span>
-          </div>
-        </div>
-
-        <!-- Issue Actions -->
-        <div class="flex gap-2 pt-2 border-t border-gray-100">
-          <button
-            type="button"
-            class="flex-1 text-xs bg-blue-500 text-white py-2 px-3 rounded hover:bg-blue-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            (click)="viewIssueDetails(issue.id)"
-            [attr.aria-label]="'View details for issue: ' + issue.title"
-          >
-            View
-          </button>
-          <button
-            type="button"
-            class="text-xs bg-red-500 text-white py-2 px-3 rounded hover:bg-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-            (click)="deleteIssue(issue.id, issue.title)"
-            [attr.aria-label]="'Delete issue: ' + issue.title"
-            title="Delete Issue"
-          >
-            <i class="pi pi-trash" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-      }
-
-      <!-- Empty State for Column -->
-      @if (getIssuesByStatus(column.key).length === 0) {
-      <div class="text-center py-8 text-gray-400" role="status" aria-live="polite">
-        <i class="pi pi-inbox text-2xl mb-2" aria-hidden="true"></i>
-        <p class="text-sm">No issues</p>
-      </div>
-      }
-    </div>
-  </div>
+  @for (column of getKanbanColumns(); track column.key) {
+  <app-kanban-column
+    [config]="column"
+    (issueDeleted)="onIssueDeleted($event)"
+    (issueClicked)="onIssueClicked($event)"
+  />
   }
 </div>

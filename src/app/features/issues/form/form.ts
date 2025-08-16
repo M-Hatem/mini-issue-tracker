@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssuesService } from '../../../core/api/issues.service';
 import { Issue } from '../../../core/models/issue.interface';
+import { IssueStyleHelper } from '../../../core/utils/issue-style.helper';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,12 +20,15 @@ export class Form {
 
   protected readonly issueForm: FormGroup;
   protected readonly isEditMode = signal(false);
+  protected readonly issueId = signal<number | null>(null);
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
-  protected readonly issueId = signal<number | null>(null);
 
   protected readonly statusOptions = ['To Do', 'In Progress', 'Done'];
   protected readonly priorityOptions = ['Low', 'Medium', 'High', 'Critical'];
+
+  protected getPriorityClasses = IssueStyleHelper.getPriorityClasses;
+  protected getStatusClasses = IssueStyleHelper.getStatusClasses;
 
   constructor() {
     this.issueForm = this.fb.group({

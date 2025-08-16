@@ -1,0 +1,49 @@
+<div
+  class="bg-gray-50 rounded-lg p-4"
+  role="region"
+  [attr.aria-labelledby]="'column-' + config().status.toLowerCase().replace(' ', '-')"
+>
+  <!-- Column Header -->
+  <div class="flex items-center justify-between mb-4">
+    <h3
+      [id]="'column-' + config().status.toLowerCase().replace(' ', '-')"
+      class="text-lg font-semibold text-gray-800"
+    >
+      {{ config().title }}
+    </h3>
+    <span
+      class="px-2 py-1 text-xs font-medium text-white rounded-full {{
+        getStatusColumnClasses(config().status)
+      }}"
+      [attr.aria-label]="config().title + ' column has ' + config().issues.length + ' issues'"
+    >
+      {{ config().issues.length }}
+    </span>
+  </div>
+
+  <!-- Issues in this column -->
+  <div class="flex flex-col gap-3" role="list" [attr.aria-label]="config().title + ' issues'">
+    @for (issue of config().issues; track issue.id) {
+    <app-issue-card
+      [issue]="issue"
+      [config]="{
+        showActions: true,
+        showDescription: true,
+        showMeta: true,
+        compact: true,
+        showStatus: false,
+      }"
+      (issueDeleted)="onIssueDeleted($event)"
+      (issueClicked)="onIssueClicked($event)"
+    />
+    }
+
+    <!-- Empty State for Column -->
+    @if (config().issues.length === 0) {
+    <div class="text-center py-8 text-gray-400" role="status" aria-live="polite">
+      <i class="pi pi-inbox text-2xl mb-2" aria-hidden="true"></i>
+      <p class="text-sm">No issues</p>
+    </div>
+    }
+  </div>
+</div>
