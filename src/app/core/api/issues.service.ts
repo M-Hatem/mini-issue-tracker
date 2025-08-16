@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Issue } from '../models/issue.interface';
 
@@ -13,6 +13,14 @@ export class IssuesService {
 
   getIssues(): Observable<Issue[]> {
     return this.http.get<Issue[]>(this.apiUrl);
+  }
+
+  getIssuesForInfiniteScroll(offset: number, limit: number): Observable<Issue[]> {
+    const httpParams = new HttpParams()
+      .set('_start', offset.toString())
+      .set('_limit', limit.toString());
+
+    return this.http.get<Issue[]>(this.apiUrl, { params: httpParams });
   }
 
   getIssueById(id: number): Observable<Issue> {

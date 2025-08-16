@@ -1,12 +1,22 @@
-<main class="flex flex-col gap-4">
+<main
+  class="flex flex-col gap-4"
+  appInfiniteScroll
+  [threshold]="100"
+  [disabled]="loading() || loadingMore() || !hasMoreIssues()"
+  (scrolled)="onScroll()"
+>
   <section>
     <div class="flex flex-col justify-between bg-gray-100 p-4 rounded-md gap-4">
       <h1 class="text-2xl font-bold">Issues Tracker</h1>
       <form class="flex flex-col gap-4 w-full">
-        <div class="flex justify-between items-center gap-4">
-          <app-search-input class="w-full" />
+        <div class="grid grid-cols-4 items-center gap-4">
+          <div class="col-span-1"></div>
 
-          <div class="flex gap-2">
+          <div class="col-span-2">
+            <app-search-input class="w-full" />
+          </div>
+
+          <div class="col-span-1 flex justify-end gap-2">
             <button
               class="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 cursor-pointer h-10 w-10 flex items-center justify-center gap-2"
               (click)="loadIssues()"
@@ -39,7 +49,7 @@
   <section class="p-4 bg-gray-100 rounded-md">
     <div class="mb-4">
       <h2 class="text-xl font-semibold text-gray-800">Issues</h2>
-      <p class="text-gray-600">Total: {{ issues().length }} issues</p>
+      <p class="text-gray-600">Showing {{ issues().length }} issues</p>
     </div>
 
     <!-- Loading State -->
@@ -69,7 +79,27 @@
     <!-- Issues Grid -->
     @if (!loading() && !error() && issues().length > 0) {
     <app-list [issues]="issues()" />
-    }
+
+    <!-- Infinite Scroll Loader -->
+    @if (hasMoreIssues()) {
+    <div class="mt-6 flex justify-center items-center py-4">
+      @if (loadingMore()) {
+      <div class="flex items-center gap-3">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+        <span class="text-gray-600">Loading more issues...</span>
+      </div>
+      } @else {
+      <div class="text-gray-500 text-sm">Scroll down to load more issues</div>
+      }
+    </div>
+    } @else {
+    <div class="mt-6 text-center py-4">
+      <div class="text-gray-500 text-sm">
+        <i class="pi pi-check-circle text-green-500 mr-2"></i>
+        All issues loaded
+      </div>
+    </div>
+    } }
 
     <!-- Empty State -->
     @if (!loading() && !error() && issues().length === 0) {
