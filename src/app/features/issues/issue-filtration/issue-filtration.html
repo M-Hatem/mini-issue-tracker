@@ -1,20 +1,57 @@
 <section class="flex flex-col gap-4 w-full">
-  <h3 class="text-lg font-bold">Filter Issues by:</h3>
+  <h3 class="text-lg font-bold">Filter Issues by Status:</h3>
 
-  <div class="flex flex-col gap-2 w-full">
-    <div class="flex items-center gap-2 text-gray-500">
-      <input type="checkbox" id="to-do" />
-      <label for="to-do" class="cursor-pointer">To Do</label>
+  <div class="flex flex-col gap-3 w-full">
+    <div class="flex items-center gap-3 text-gray-700">
+      <input
+        type="radio"
+        id="all"
+        name="status"
+        value="All"
+        [checked]="selectedStatus() === 'All'"
+        (change)="onStatusChange('All')"
+        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+      />
+      <label for="all" class="cursor-pointer font-medium">All Issues</label>
     </div>
 
-    <div class="flex items-center gap-2 text-gray-500">
-      <input type="checkbox" id="in-progress" />
-      <label for="in-progress" class="cursor-pointer">In Progress</label>
+    <div class="flex items-center gap-3 text-gray-700">
+      <input
+        type="radio"
+        id="to-do"
+        name="status"
+        value="To Do"
+        [checked]="selectedStatus() === 'To Do'"
+        (change)="onStatusChange('To Do')"
+        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+      />
+      <label for="to-do" class="cursor-pointer font-medium">To Do</label>
     </div>
 
-    <div class="flex items-center gap-2 text-gray-500">
-      <input type="checkbox" id="done" />
-      <label for="done" class="cursor-pointer">Done</label>
+    <div class="flex items-center gap-3 text-gray-700">
+      <input
+        type="radio"
+        id="in-progress"
+        name="status"
+        value="In Progress"
+        [checked]="selectedStatus() === 'In Progress'"
+        (change)="onStatusChange('In Progress')"
+        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+      />
+      <label for="in-progress" class="cursor-pointer font-medium">In Progress</label>
+    </div>
+
+    <div class="flex items-center gap-3 text-gray-700">
+      <input
+        type="radio"
+        id="done"
+        name="status"
+        value="Done"
+        [checked]="selectedStatus() === 'Done'"
+        (change)="onStatusChange('Done')"
+        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+      />
+      <label for="done" class="cursor-pointer font-medium">Done</label>
     </div>
   </div>
 </section>

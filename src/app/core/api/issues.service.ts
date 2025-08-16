@@ -15,16 +15,9 @@ export class IssuesService {
     return this.http.get<Issue[]>(this.apiUrl);
   }
 
-  getIssuesForInfiniteScroll(offset: number, limit: number): Observable<Issue[]> {
-    const httpParams = new HttpParams()
-      .set('_start', offset.toString())
-      .set('_limit', limit.toString());
-
-    return this.http.get<Issue[]>(this.apiUrl, { params: httpParams });
-  }
-
-  searchIssuesByTitle(
+  searchAndFilterIssues(
     searchTerm: string,
+    status: string,
     offset: number = 0,
     limit: number = 12
   ): Observable<Issue[]> {
@@ -34,6 +27,10 @@ export class IssuesService {
 
     if (searchTerm && searchTerm.trim()) {
       httpParams = httpParams.set('title_like', searchTerm.trim());
+    }
+
+    if (status && status !== 'All') {
+      httpParams = httpParams.set('status', status);
     }
 
     return this.http.get<Issue[]>(this.apiUrl, { params: httpParams });

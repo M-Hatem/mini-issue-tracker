@@ -25,6 +25,7 @@ export class Dashboard implements OnInit {
   protected readonly hasMoreIssues = signal(true);
   protected readonly loadingMore = signal(false);
   protected readonly searchTerm = signal('');
+  protected readonly statusFilter = signal('All');
 
   ngOnInit(): void {
     this.loadIssues();
@@ -43,8 +44,16 @@ export class Dashboard implements OnInit {
     this.loadIssues();
   }
 
-  protected clearSearch(): void {
+  protected onStatusFilterChange(status: string): void {
+    this.statusFilter.set(status);
+    this.currentOffset.set(0);
+    this.hasMoreIssues.set(true);
+    this.loadIssues();
+  }
+
+  protected clearFilters(): void {
     this.searchTerm.set('');
+    this.statusFilter.set('All');
     this.currentOffset.set(0);
     this.hasMoreIssues.set(true);
     this.loadIssues();
@@ -65,25 +74,11 @@ export class Dashboard implements OnInit {
     this.hasMoreIssues.set(true);
 
     const searchTerm = this.searchTerm();
+    const statusFilter = this.statusFilter();
 
-    if (searchTerm && searchTerm.trim()) {
-      // Search by title
-      this.issuesService.searchIssuesByTitle(searchTerm, 0, this.pageSize()).subscribe({
-        next: (newIssues) => {
-          this.issues.set(newIssues);
-          this.currentOffset.set(newIssues.length);
-          this.hasMoreIssues.set(newIssues.length === this.pageSize());
-          this.loading.set(false);
-        },
-        error: (err) => {
-          console.error('Error searching issues:', err);
-          this.error.set('Failed to search issues. Please try again later.');
-          this.loading.set(false);
-        },
-      });
-    } else {
-      // Load all issues
-      this.issuesService.getIssuesForInfiniteScroll(0, this.pageSize()).subscribe({
+    this.issuesService
+      .searchAndFilterIssues(searchTerm, statusFilter, 0, this.pageSize())
+      .subscribe({
         next: (newIssues) => {
           this.issues.set(newIssues);
           this.currentOffset.set(newIssues.length);
@@ -96,7 +91,6 @@ export class Dashboard implements OnInit {
           this.loading.set(false);
         },
       });
-    }
   }
 
   private loadMoreIssues(): void {
@@ -107,47 +101,25 @@ export class Dashboard implements OnInit {
     this.loadingMore.set(true);
 
     const searchTerm = this.searchTerm();
+    const statusFilter = this.statusFilter();
 
-    if (searchTerm && searchTerm.trim()) {
-      // Search by title with pagination
-      this.issuesService
-        .searchIssuesByTitle(searchTerm, this.currentOffset(), this.pageSize())
-        .subscribe({
-          next: (newIssues) => {
-            if (newIssues.length > 0) {
-              this.issues.update((currentIssues) => [...currentIssues, ...newIssues]);
-              this.currentOffset.update((offset) => offset + newIssues.length);
-              this.hasMoreIssues.set(newIssues.length === this.pageSize());
-            } else {
-              this.hasMoreIssues.set(false);
-            }
-            this.loadingMore.set(false);
-          },
-          error: (err) => {
-            console.error('Error loading more search results:', err);
-            this.loadingMore.set(false);
-          },
-        });
-    } else {
-      // Load more all issues
-      this.issuesService
-        .getIssuesForInfiniteScroll(this.currentOffset(), this.pageSize())
-        .subscribe({
-          next: (newIssues) => {
-            if (newIssues.length > 0) {
-              this.issues.update((currentIssues) => [...currentIssues, ...newIssues]);
-              this.currentOffset.update((offset) => offset + newIssues.length);
-              this.hasMoreIssues.set(newIssues.length === this.pageSize());
-            } else {
-              this.hasMoreIssues.set(false);
-            }
-            this.loadingMore.set(false);
-          },
-          error: (err) => {
-            console.error('Error loading more issues:', err);
-            this.loadingMore.set(false);
-          },
-        });
-    }
+    this.issuesService
+      .searchAndFilterIssues(searchTerm, statusFilter, this.currentOffset(), this.pageSize())
+      .subscribe({
+        next: (newIssues) => {
+          if (newIssues.length > 0) {
+            this.issues.update((currentIssues) => [...currentIssues, ...newIssues]);
+            this.currentOffset.update((offset) => offset + newIssues.length);
+            this.hasMoreIssues.set(newIssues.length === this.pageSize());
+          } else {
+            this.hasMoreIssues.set(false);
+          }
+          this.loadingMore.set(false);
+        },
+        error: (err) => {
+          console.error('Error loading more issues:', err);
+          this.loadingMore.set(false);
+        },
+      });
   }
 }

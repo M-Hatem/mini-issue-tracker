@@ -1,4 +1,4 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, output, signal, input, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -12,10 +12,18 @@ import { Subject } from 'rxjs';
 export class SearchInput {
   searchChange = output<string>();
 
+  resetSearch = input<string>('');
+
   private searchSubject = new Subject<string>();
   protected readonly searchValue = signal('');
 
   constructor() {
+    effect(() => {
+      const resetValue = this.resetSearch();
+
+      if (resetValue === '') this.searchValue.set('');
+    });
+
     this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe((searchTerm) => {
       this.searchChange.emit(searchTerm);
     });
