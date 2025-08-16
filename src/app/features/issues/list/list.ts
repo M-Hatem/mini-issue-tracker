@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Issue } from '../../../core/models/issue.interface';
 import { DatePipe } from '@angular/common';
 
@@ -9,7 +10,12 @@ import { DatePipe } from '@angular/common';
   styleUrl: './list.scss',
 })
 export class List {
+  private readonly router = inject(Router);
   readonly issues = input.required<Issue[]>();
+
+  protected viewIssueDetails(issueId: number): void {
+    this.router.navigate(['/issues', issueId]);
+  }
 
   protected getPriorityColor(priority: string): string {
     switch (priority) {

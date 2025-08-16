@@ -1,5 +1,5 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
-import { SearchInput } from '../../../shared/ui/components/search-input/search-input';
+import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { IssueFiltration } from '../issue-filtration/issue-filtration';
 import { Issue } from '../../../core/models/issue.interface';
 import { IssuesService } from '../../../core/api/issues.service';
