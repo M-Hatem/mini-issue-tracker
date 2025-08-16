@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-gray-50 py-8">
-  <div class="max-w-3xl mx-auto px-4">
+  <div class="max-w-2xl mx-auto px-4">
     <!-- Header -->
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-900 mb-2">
@@ -8,18 +8,18 @@
       <p class="text-gray-600">
         {{
           isEditMode()
-            ? 'Update the issue details below'
-            : 'Fill in the details to create a new issue'
+            ? 'Update the issue details below.'
+            : 'Fill in the details to create a new issue.'
         }}
       </p>
     </div>
 
     <!-- Error Display -->
     @if (error()) {
-    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6" role="alert">
       <div class="flex items-center">
-        <i class="pi pi-exclamation-triangle text-red-600 mr-2"></i>
-        <span class="text-red-800">{{ error() }}</span>
+        <i class="pi pi-exclamation-triangle mr-2" aria-hidden="true"></i>
+        <span>{{ error() }}</span>
       </div>
     </div>
     }
@@ -29,38 +29,46 @@
       <!-- Title Field -->
       <div class="mb-6">
         <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
-          Title <span class="text-red-500">*</span>
+          Title <span class="text-red-500" aria-label="required">*</span>
         </label>
         <input
           type="text"
           id="title"
           formControlName="title"
-          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 focus:placeholder:text-gray-300"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 focus:placeholder:text-gray-300"
           [class.border-red-300]="isFieldInvalid('title')"
           [class.border-gray-300]="!isFieldInvalid('title')"
           placeholder="Enter issue title"
+          aria-describedby="title-error"
+          aria-required="true"
         />
         @if (getErrorMessage('title')) {
-        <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('title') }}</p>
+        <p id="title-error" class="mt-1 text-sm text-red-600" role="alert">
+          {{ getErrorMessage('title') }}
+        </p>
         }
       </div>
 
       <!-- Description Field -->
       <div class="mb-6">
         <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
-          Description <span class="text-red-500">*</span>
+          Description <span class="text-red-500" aria-label="required">*</span>
         </label>
         <textarea
           id="description"
           formControlName="description"
-          rows="5"
-          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 resize-vertical focus:placeholder:text-gray-300"
+          rows="4"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 focus:placeholder:text-gray-300 resize-vertical"
           [class.border-red-300]="isFieldInvalid('description')"
           [class.border-gray-300]="!isFieldInvalid('description')"
-          placeholder="Describe the issue in detail..."
+          placeholder="Enter issue description"
+          aria-describedby="description-error"
+          aria-required="true"
         ></textarea>
         @if (getErrorMessage('description')) {
-        <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('description') }}</p>
+        <p id="description-error" class="mt-1 text-sm text-red-600" role="alert">
+          {{ getErrorMessage('description') }}
+        </p>
         }
       </div>
 
@@ -69,38 +77,46 @@
         <!-- Status Field -->
         <div>
           <label for="status" class="block text-sm font-medium text-gray-700 mb-2">
-            Status <span class="text-red-500">*</span>
+            Status <span class="text-red-500" aria-label="required">*</span>
           </label>
           <select
             id="status"
             formControlName="status"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+            aria-describedby="status-error"
+            aria-required="true"
           >
             @for (status of statusOptions; track status) {
             <option [value]="status">{{ status }}</option>
             }
           </select>
           @if (getErrorMessage('status')) {
-          <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('status') }}</p>
+          <p id="status-error" class="mt-1 text-sm text-red-600" role="alert">
+            {{ getErrorMessage('status') }}
+          </p>
           }
         </div>
 
         <!-- Priority Field -->
         <div>
           <label for="priority" class="block text-sm font-medium text-gray-700 mb-2">
-            Priority <span class="text-red-500">*</span>
+            Priority <span class="text-red-500" aria-label="required">*</span>
           </label>
           <select
             id="priority"
             formControlName="priority"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+            aria-describedby="priority-error"
+            aria-required="true"
           >
             @for (priority of priorityOptions; track priority) {
             <option [value]="priority">{{ priority }}</option>
             }
           </select>
           @if (getErrorMessage('priority')) {
-          <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('priority') }}</p>
+          <p id="priority-error" class="mt-1 text-sm text-red-600" role="alert">
+            {{ getErrorMessage('priority') }}
+          </p>
           }
         </div>
       </div>
@@ -108,19 +124,23 @@
       <!-- Assignee Field -->
       <div class="mb-8">
         <label for="assignee" class="block text-sm font-medium text-gray-700 mb-2">
-          Assignee <span class="text-red-500">*</span>
+          Assignee <span class="text-red-500" aria-label="required">*</span>
         </label>
         <input
           type="text"
           id="assignee"
           formControlName="assignee"
-          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 focus:placeholder:text-gray-300"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 focus:placeholder:text-gray-300"
           [class.border-red-300]="isFieldInvalid('assignee')"
           [class.border-gray-300]="!isFieldInvalid('assignee')"
           placeholder="Enter assignee name"
+          aria-describedby="assignee-error"
+          aria-required="true"
         />
         @if (getErrorMessage('assignee')) {
-        <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('assignee') }}</p>
+        <p id="assignee-error" class="mt-1 text-sm text-red-600" role="alert">
+          {{ getErrorMessage('assignee') }}
+        </p>
         }
       </div>
 
@@ -131,8 +151,9 @@
           (click)="onCancel()"
           [disabled]="loading()"
           class="flex-1 bg-gray-600 text-white py-3 px-6 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          aria-label="Cancel and return to previous page"
         >
-          <i class="pi pi-times"></i>
+          <i class="pi pi-times" aria-hidden="true"></i>
           <span>Cancel</span>
         </button>
 
@@ -142,8 +163,9 @@
           (click)="deleteIssue()"
           [disabled]="loading()"
           class="flex-1 bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          aria-label="Delete this issue"
         >
-          <i class="pi pi-trash"></i>
+          <i class="pi pi-trash" aria-hidden="true"></i>
           <span>Delete Issue</span>
         </button>
         }
@@ -152,12 +174,16 @@
           type="submit"
           [disabled]="loading() || issueForm.invalid"
           class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          [attr.aria-label]="isEditMode() ? 'Update issue' : 'Create new issue'"
         >
           @if (loading()) {
-          <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+          <div
+            class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"
+            aria-hidden="true"
+          ></div>
           <span>{{ isEditMode() ? 'Updating...' : 'Creating...' }}</span>
           } @else {
-          <i class="pi pi-check"></i>
+          <i class="pi pi-check" aria-hidden="true"></i>
           <span>{{ isEditMode() ? 'Update Issue' : 'Create Issue' }}</span>
           }
         </button>
@@ -166,7 +192,9 @@
 
     <!-- Form Help -->
     <div class="mt-6 text-center text-sm text-gray-500">
-      <p>Fields marked with <span class="text-red-500">*</span> are required</p>
+      <p>
+        Fields marked with <span class="text-red-500" aria-label="required">*</span> are required
+      </p>
     </div>
   </div>
 </div>

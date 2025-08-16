@@ -1,44 +1,29 @@
-<section class="flex flex-col gap-4 w-full">
-  <h3 class="text-lg font-bold">Filter Issues by Status:</h3>
+<section class="flex flex-col gap-4 w-full" role="group" aria-labelledby="filter-heading">
+  <h3 id="filter-heading" class="text-lg font-bold text-gray-800">Filter Issues by Status</h3>
 
   <div class="flex flex-col gap-3 w-full">
+    @for (status of availableStatuses; track status) {
     <div class="flex items-center gap-3 text-gray-700">
       <input
         type="checkbox"
-        id="to-do"
+        [id]="'status-' + status.toLowerCase().replace(' ', '-')"
         name="status"
-        value="To Do"
-        [checked]="isStatusSelected('To Do')"
-        (change)="onStatusChange('To Do', $any($event.target).checked)"
-        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+        [value]="status"
+        [checked]="isStatusSelected(status)"
+        (change)="onStatusChange(status, $any($event.target).checked)"
+        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+        [attr.aria-describedby]="'status-desc-' + status.toLowerCase().replace(' ', '-')"
       />
-      <label for="to-do" class="cursor-pointer font-medium">To Do</label>
+      <label
+        [for]="'status-' + status.toLowerCase().replace(' ', '-')"
+        class="cursor-pointer font-medium hover:text-blue-600 transition-colors duration-200"
+      >
+        {{ status }}
+      </label>
+      <span [id]="'status-desc-' + status.toLowerCase().replace(' ', '-')" class="sr-only">
+        Filter issues to show only those with status "{{ status }}"
+      </span>
     </div>
-
-    <div class="flex items-center gap-3 text-gray-700">
-      <input
-        type="checkbox"
-        id="in-progress"
-        name="status"
-        value="In Progress"
-        [checked]="isStatusSelected('In Progress')"
-        (change)="onStatusChange('In Progress', $any($event.target).checked)"
-        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-      />
-      <label for="in-progress" class="cursor-pointer font-medium">In Progress</label>
-    </div>
-
-    <div class="flex items-center gap-3 text-gray-700">
-      <input
-        type="checkbox"
-        id="done"
-        name="status"
-        value="Done"
-        [checked]="isStatusSelected('Done')"
-        (change)="onStatusChange('Done', $any($event.target).checked)"
-        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-      />
-      <label for="done" class="cursor-pointer font-medium">Done</label>
-    </div>
+    }
   </div>
 </section>

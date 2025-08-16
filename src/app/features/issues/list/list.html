@@ -1,15 +1,24 @@
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div
+  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+  role="list"
+  aria-label="Issues list"
+>
   @for (issue of issues(); track issue.id) {
-  <div
+  <article
     class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 h-full flex flex-col justify-between"
+    role="listitem"
+    [attr.aria-labelledby]="'issue-title-' + issue.id"
   >
     <div class="flex items-start justify-between mb-3">
-      <h3 class="text-lg font-semibold text-gray-800 line-clamp-2">{{ issue.title }}</h3>
+      <h3 [id]="'issue-title-' + issue.id" class="text-lg font-semibold text-gray-800 line-clamp-2">
+        {{ issue.title }}
+      </h3>
       <div class="flex flex-col items-end gap-2">
         <span
           class="px-2 py-1 text-xs font-medium text-white rounded-full {{
             getPriorityColor(issue.priority)
           }}"
+          [attr.aria-label]="'Priority: ' + issue.priority"
         >
           {{ issue.priority }}
         </span>
@@ -17,6 +26,7 @@
           class="px-2 py-1 text-xs font-medium text-white rounded-full {{
             getStatusColor(issue.status)
           }}"
+          [attr.aria-label]="'Status: ' + issue.status"
         >
           {{ issue.status }}
         </span>
@@ -27,19 +37,19 @@
 
     <div class="space-y-2">
       <div class="flex items-center gap-2 text-sm text-gray-500">
-        <i class="pi pi-user text-blue-500"></i>
-        <span>{{ issue.assignee }}</span>
+        <i class="pi pi-user text-blue-500" aria-hidden="true"></i>
+        <span aria-label="Assigned to">{{ issue.assignee }}</span>
       </div>
 
       <div class="flex items-center gap-2 text-sm text-gray-500">
-        <i class="pi pi-calendar text-green-500"></i>
-        <span><b>Created:</b> {{ issue.creationDate | date : 'shortDate' }}</span>
+        <i class="pi pi-calendar text-green-500" aria-hidden="true"></i>
+        <span aria-label="Created on">{{ issue.creationDate | date : 'shortDate' }}</span>
       </div>
 
       @if (issue.updateDate !== issue.creationDate) {
       <div class="flex items-center gap-2 text-sm text-gray-500">
-        <i class="pi pi-clock text-orange-500"></i>
-        <span><b>Updated:</b> {{ issue.updateDate | date : 'shortDate' }}</span>
+        <i class="pi pi-clock text-orange-500" aria-hidden="true"></i>
+        <span aria-label="Last updated on">{{ issue.updateDate | date : 'shortDate' }}</span>
       </div>
       }
     </div>
@@ -48,21 +58,23 @@
       <div class="flex gap-2">
         <button
           type="button"
-          class="flex-1 cursor-pointer bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-200 text-sm font-medium"
+          class="flex-1 cursor-pointer bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           (click)="viewIssueDetails(issue.id)"
+          [attr.aria-label]="'View details for issue: ' + issue.title"
         >
           View Details
         </button>
         <button
           type="button"
-          class="cursor-pointer bg-red-500 text-white py-2 px-3 rounded-md hover:bg-red-600 transition-colors duration-200 text-sm font-medium"
+          class="cursor-pointer bg-red-500 text-white py-2 px-3 rounded-md hover:bg-red-600 transition-colors duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           (click)="deleteIssue(issue.id, issue.title)"
+          [attr.aria-label]="'Delete issue: ' + issue.title"
           title="Delete Issue"
         >
-          <i class="pi pi-trash"></i>
+          <i class="pi pi-trash" aria-hidden="true"></i>
         </button>
       </div>
     </div>
-  </div>
+  </article>
   }
 </div>
