@@ -61,6 +61,14 @@ export class Dashboard implements OnInit {
     this.loadIssues();
   }
 
+  protected onIssueDeleted(issueId: number): void {
+    this.issues.update((currentIssues) => currentIssues.filter((issue) => issue.id !== issueId));
+
+    if (this.issues().length < this.pageSize() && this.hasMoreIssues()) {
+      this.loadMoreIssues();
+    }
+  }
+
   protected createNewIssue(): void {
     this.router.navigate(['/issues/new']);
   }

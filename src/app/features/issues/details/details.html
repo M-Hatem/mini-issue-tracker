@@ -174,8 +174,16 @@
           </button>
           <button
             type="button"
+            (click)="deleteIssue()"
+            class="px-6 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200 flex items-center gap-2"
+          >
+            <i class="pi pi-trash"></i>
+            Delete Issue
+          </button>
+          <button
+            type="button"
             (click)="goBackToList()"
-            class="px-6 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors duration-200 flex items-center gap-2"
+            class="px-6 ms-auto py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors duration-200 flex items-center gap-2"
           >
             <i class="pi pi-list"></i>
             Back to Issues List

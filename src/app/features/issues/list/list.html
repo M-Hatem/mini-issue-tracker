@@ -45,13 +45,23 @@
     </div>
 
     <div class="mt-4 pt-3 border-t border-gray-200">
-      <button
-        type="button"
-        class="w-full cursor-pointer bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-200 text-sm font-medium"
-        (click)="viewIssueDetails(issue.id)"
-      >
-        View Details
-      </button>
+      <div class="flex gap-2">
+        <button
+          type="button"
+          class="flex-1 cursor-pointer bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-200 text-sm font-medium"
+          (click)="viewIssueDetails(issue.id)"
+        >
+          View Details
+        </button>
+        <button
+          type="button"
+          class="cursor-pointer bg-red-500 text-white py-2 px-3 rounded-md hover:bg-red-600 transition-colors duration-200 text-sm font-medium"
+          (click)="deleteIssue(issue.id, issue.title)"
+          title="Delete Issue"
+        >
+          <i class="pi pi-trash"></i>
+        </button>
+      </div>
     </div>
   </div>
   }

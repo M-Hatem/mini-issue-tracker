@@ -1,7 +1,8 @@
-import { Component, input, inject } from '@angular/core';
+import { Component, input, inject, output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Issue } from '../../../core/models/issue.interface';
 import { DatePipe } from '@angular/common';
+import { IssuesService } from '../../../core/api/issues.service';
 
 @Component({
   selector: 'app-list',
@@ -11,10 +12,25 @@ import { DatePipe } from '@angular/common';
 })
 export class List {
   private readonly router = inject(Router);
+  private readonly issuesService = inject(IssuesService);
   readonly issues = input.required<Issue[]>();
+
+  issueDeleted = output<number>();
 
   protected viewIssueDetails(issueId: number): void {
     this.router.navigate(['/issues', issueId]);
+  }
+
+  protected deleteIssue(issueId: number, issueTitle: string): void {
+    if (confirm(`Are you sure you want to delete "${issueTitle}"?`)) {
+      this.issuesService.deleteIssue(issueId).subscribe({
+        next: () => this.issueDeleted.emit(issueId),
+        error: (error) => {
+          console.error('Error deleting issue:', error);
+          alert('Failed to delete issue. Please try again.');
+        },
+      });
+    }
   }
 
   protected getPriorityColor(priority: string): string {

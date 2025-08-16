@@ -65,6 +65,23 @@ export class Details implements OnInit {
     this.router.navigate(['/issues', this.issue()!.id, 'edit']);
   }
 
+  protected deleteIssue(): void {
+    if (!this.issue()) return;
+
+    const issueTitle = this.issue()!.title;
+    const issueId = this.issue()!.id;
+
+    if (confirm(`Are you sure you want to delete "${issueTitle}"?`)) {
+      this.issuesService.deleteIssue(issueId).subscribe({
+        next: () => this.goBackToList(),
+        error: (error) => {
+          console.error('Error deleting issue:', error);
+          alert('Failed to delete issue. Please try again.');
+        },
+      });
+    }
+  }
+
   protected getPriorityColor(priority: string): string {
     switch (priority) {
       case 'Critical':

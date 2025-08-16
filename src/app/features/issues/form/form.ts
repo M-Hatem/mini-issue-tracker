@@ -130,7 +130,34 @@ export class Form {
     if (this.isEditMode()) {
       this.router.navigate(['/issues', this.issueId()]);
     } else {
-      this.router.navigate(['/issues/dashboard']);
+      this.goBackToList();
+    }
+  }
+
+  private goBackToList(): void {
+    this.router.navigate(['/issues/dashboard']);
+  }
+
+  protected deleteIssue(): void {
+    if (!this.isEditMode() || !this.issueId()) return;
+
+    const issueTitle = this.issueForm.get('title')?.value || 'this issue';
+
+    if (confirm(`Are you sure you want to delete "${issueTitle}"?`)) {
+      this.loading.set(true);
+      this.error.set(null);
+
+      this.issuesService.deleteIssue(this.issueId()!).subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.goBackToList();
+        },
+        error: (err) => {
+          console.error('Error deleting issue:', err);
+          this.error.set('Failed to delete issue. Please try again.');
+          this.loading.set(false);
+        },
+      });
     }
   }
 

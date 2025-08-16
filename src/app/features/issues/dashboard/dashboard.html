@@ -115,7 +115,7 @@
 
     <!-- Issues Grid -->
     @if (!loading() && !error() && issues().length > 0) {
-    <app-list [issues]="issues()" />
+    <app-list [issues]="issues()" (issueDeleted)="onIssueDeleted($event)" />
 
     <!-- Infinite Scroll Loader -->
     @if (hasMoreIssues()) {
