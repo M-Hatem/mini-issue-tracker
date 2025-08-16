@@ -1,0 +1,68 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8 text-center">
+    <!-- 404 Icon -->
+    <div class="mx-auto h-24 w-24 text-gray-400">
+      <svg
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        aria-hidden="true"
+        class="w-full h-full"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+          d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+        />
+      </svg>
+    </div>
+
+    <!-- Error Message -->
+    <div>
+      <h1 class="text-9xl font-bold text-gray-900">404</h1>
+      <h2 class="mt-6 text-3xl font-bold text-gray-900">Page Not Found</h2>
+      <p class="mt-2 text-sm text-gray-600">Sorry, we couldn't find the page you're looking for.</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="mt-8 space-y-4">
+      <button
+        type="button"
+        (click)="goToDashboard()"
+        class="w-full cursor-pointer flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+      >
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          />
+        </svg>
+        Go to Dashboard
+      </button>
+
+      <button
+        type="button"
+        (click)="goBack()"
+        class="w-full cursor-pointer flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+      >
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        Go Back
+      </button>
+    </div>
+
+    <!-- Additional Help -->
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <p class="text-xs text-gray-500">If you believe this is an error, please contact support.</p>
+    </div>
+  </div>
+</div>

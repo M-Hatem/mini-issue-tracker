@@ -1,19 +1,16 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Directive, HostListener, input, output } from '@angular/core';
 
 @Directive({
   selector: '[appInfiniteScroll]',
-  standalone: true,
 })
 export class InfiniteScrollDirective {
-  @Input() threshold = 100;
-  @Input() disabled = false;
-  @Output() scrolled = new EventEmitter<void>();
-
-  constructor(private elementRef: ElementRef) {}
+  threshold = input<number>(100);
+  disabled = input<boolean>(false);
+  scrolled = output<void>();
 
   @HostListener('window:scroll')
   onScroll(): void {
-    if (this.disabled) {
+    if (this.disabled()) {
       return;
     }
 
@@ -26,6 +23,6 @@ export class InfiniteScrollDirective {
     const scrollPosition = window.scrollY + window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
 
-    return scrollPosition >= documentHeight - this.threshold;
+    return scrollPosition >= documentHeight - this.threshold();
   }
 }
