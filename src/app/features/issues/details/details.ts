@@ -59,6 +59,12 @@ export class Details implements OnInit {
     this.router.navigate(['/issues']);
   }
 
+  protected editIssue(): void {
+    if (!this.issue()) return;
+
+    this.router.navigate(['/issues', this.issue()!.id, 'edit']);
+  }
+
   protected getPriorityColor(priority: string): string {
     switch (priority) {
       case 'Critical':

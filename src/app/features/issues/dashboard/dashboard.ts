@@ -1,4 +1,5 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { IssueFiltration } from '../issue-filtration/issue-filtration';
 import { Issue } from '../../../core/models/issue.interface';
@@ -14,6 +15,7 @@ import { InfiniteScrollDirective } from '../../../shared/directives/infinite-scr
 })
 export class Dashboard implements OnInit {
   private readonly issuesService = inject(IssuesService);
+  private readonly router = inject(Router);
 
   protected readonly isFilterOpen = signal(false);
   protected readonly issues = signal<Issue[]>([]);
@@ -57,6 +59,10 @@ export class Dashboard implements OnInit {
     this.currentOffset.set(0);
     this.hasMoreIssues.set(true);
     this.loadIssues();
+  }
+
+  protected createNewIssue(): void {
+    this.router.navigate(['/issues/new']);
   }
 
   private shouldLoadMore(): boolean {

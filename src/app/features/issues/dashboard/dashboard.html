@@ -7,7 +7,17 @@
 >
   <section>
     <div class="flex flex-col justify-between bg-gray-100 p-4 rounded-md gap-4">
-      <h1 class="text-2xl font-bold">Issues Tracker</h1>
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold">Issues Tracker</h1>
+        <button
+          type="button"
+          (click)="createNewIssue()"
+          class="bg-green-600 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-200 flex items-center gap-2"
+        >
+          <i class="pi pi-plus"></i>
+          <span>Create New Issue</span>
+        </button>
+      </div>
       <form class="flex flex-col gap-4 w-full">
         <div class="grid grid-cols-4 items-center gap-4">
           <div class="col-span-1"></div>

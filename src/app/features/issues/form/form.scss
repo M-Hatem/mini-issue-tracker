@@ -1,0 +1,122 @@
+.issue-form {
+  .form-field {
+    &:focus-within {
+      .field-label {
+        color: #3b82f6;
+      }
+    }
+  }
+
+  input,
+  textarea,
+  select {
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    }
+  }
+
+  .border-red-300 {
+    animation: shake 0.5s ease-in-out;
+  }
+
+  .loading-spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  @media (max-width: 640px) {
+    .form-actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  textarea {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+
+      &:hover {
+        background: #94a3b8;
+      }
+    }
+  }
+
+  button {
+    transition: all 0.2s ease-in-out;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+  }
+
+  .error-message {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .field-invalid {
+    .field-input {
+      border-color: #ef4444;
+      background-color: #fef2f2;
+    }
+  }
+
+  .field-valid {
+    .field-input {
+      border-color: #10b981;
+      background-color: #f0fdf4;
+    }
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
