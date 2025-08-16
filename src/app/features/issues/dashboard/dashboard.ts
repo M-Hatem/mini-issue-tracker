@@ -1,21 +1,23 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SearchInput } from '../../../shared/components/search-input/search-input';
-import { IssueFiltration } from '../issue-filtration/issue-filtration';
-import { Issue } from '../../../core/models/issue.interface';
 import { IssuesService } from '../../../core/api/issues.service';
+import { Issue } from '../../../core/models/issue.interface';
 import { List } from '../list/list';
+import { Kanban } from '../kanban/kanban';
+import { IssueFiltration } from '../issue-filtration/issue-filtration';
 import { InfiniteScrollDirective } from '../../../shared/directives/infinite-scroll.directive';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [SearchInput, IssueFiltration, List, InfiniteScrollDirective],
+  imports: [SearchInput, IssueFiltration, List, Kanban, InfiniteScrollDirective],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
 export class Dashboard implements OnInit {
   private readonly issuesService = inject(IssuesService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly isFilterOpen = signal(false);
   protected readonly issues = signal<Issue[]>([]);
@@ -28,6 +30,8 @@ export class Dashboard implements OnInit {
   protected readonly loadingMore = signal(false);
   protected readonly searchTerm = signal('');
   protected readonly statusFilter = signal<string[]>([]);
+
+  protected readonly viewMode = signal<'list' | 'kanban'>('list');
 
   ngOnInit(): void {
     this.loadIssues();
@@ -67,6 +71,21 @@ export class Dashboard implements OnInit {
     if (this.issues().length < this.pageSize() && this.hasMoreIssues()) {
       this.loadMoreIssues();
     }
+  }
+
+  protected toggleViewMode(): void {
+    this.viewMode.update((currentMode) => {
+      const newMode = currentMode === 'list' ? 'kanban' : 'list';
+
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { view: newMode },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+
+      return newMode;
+    });
   }
 
   protected createNewIssue(): void {

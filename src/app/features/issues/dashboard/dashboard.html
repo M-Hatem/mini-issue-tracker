@@ -64,9 +64,44 @@
     </div>
   </section>
 
+  <!-- View Toggle Section -->
+  <section class="p-4 bg-white rounded-md shadow-sm border border-gray-200">
+    <div class="flex items-center justify-between">
+      <h2 class="text-xl font-semibold text-gray-800">Issues</h2>
+      <div class="flex items-center gap-3">
+        <!-- View Toggle -->
+        <div class="flex bg-gray-100 rounded-lg p-1">
+          <button
+            type="button"
+            (click)="toggleViewMode()"
+            class="px-4 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 {{
+              viewMode() === 'list'
+                ? 'bg-white text-blue-600 shadow-sm'
+                : 'text-gray-600 hover:text-gray-800'
+            }}"
+          >
+            <i class="pi pi-list"></i>
+            List
+          </button>
+          <button
+            type="button"
+            (click)="toggleViewMode()"
+            class="px-4 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 {{
+              viewMode() === 'kanban'
+                ? 'bg-white text-blue-600 shadow-sm'
+                : 'text-gray-600 hover:text-gray-800'
+            }}"
+          >
+            <i class="pi pi-th-large"></i>
+            Kanban
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="p-4 bg-gray-100 rounded-md">
     <div class="mb-4">
-      <h2 class="text-xl font-semibold text-gray-800">Issues</h2>
       <div class="flex items-center justify-between">
         <p class="text-gray-600">
           @if (searchTerm() && searchTerm().trim()) { @if (statusFilter().length > 0) { Showing
@@ -114,7 +149,7 @@
     }
 
     <!-- Issues Grid -->
-    @if (!loading() && !error() && issues().length > 0) {
+    @if (!loading() && !error() && issues().length > 0) { @if (viewMode() === 'list') {
     <app-list [issues]="issues()" (issueDeleted)="onIssueDeleted($event)" />
 
     <!-- Infinite Scroll Loader -->
@@ -136,6 +171,8 @@
         All issues loaded
       </div>
     </div>
+    } } @else {
+    <app-kanban [issues]="issues()" (issueDeleted)="onIssueDeleted($event)" />
     } }
 
     <!-- Empty State -->

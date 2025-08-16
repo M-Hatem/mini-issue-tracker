@@ -19,6 +19,8 @@ export class Details implements OnInit {
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
 
+  protected readonly currentViewMode = signal<'list' | 'kanban'>('list');
+
   ngOnInit(): void {
     this.loadIssue();
   }
@@ -56,7 +58,13 @@ export class Details implements OnInit {
   }
 
   protected goBackToList(): void {
-    this.router.navigate(['/issues']);
+    this.router.navigate(['/issues/dashboard'], {
+      queryParams: { view: this.currentViewMode() },
+    });
+  }
+
+  protected setViewMode(mode: 'list' | 'kanban'): void {
+    this.currentViewMode.set(mode);
   }
 
   protected editIssue(): void {

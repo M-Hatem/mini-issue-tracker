@@ -1,0 +1,80 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  @for (column of statusColumns; track column.key) {
+  <div class="bg-gray-50 rounded-lg p-4">
+    <!-- Column Header -->
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-800">{{ column.title }}</h3>
+      <span class="px-2 py-1 text-xs font-medium text-white rounded-full {{ column.color }}">
+        {{ getIssuesByStatus(column.key).length }}
+      </span>
+    </div>
+
+    <!-- Issues in this column -->
+    <div class="space-y-3">
+      @for (issue of getIssuesByStatus(column.key); track issue.id) {
+      <div
+        class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200"
+      >
+        <!-- Issue Header -->
+        <div class="flex items-start justify-between mb-3">
+          <h4 class="text-sm font-medium text-gray-800 line-clamp-2 flex-1 mr-2">
+            {{ issue.title }}
+          </h4>
+          <div class="flex flex-col items-end gap-1">
+            <span
+              class="px-2 py-1 text-xs font-medium text-white rounded-full {{
+                getPriorityColor(issue.priority)
+              }}"
+            >
+              {{ issue.priority }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Issue Description -->
+        <p class="text-gray-600 text-xs mb-3 line-clamp-2">{{ issue.description }}</p>
+
+        <!-- Issue Meta -->
+        <div class="space-y-2 mb-3">
+          <div class="flex items-center gap-2 text-xs text-gray-500">
+            <i class="pi pi-user text-blue-500"></i>
+            <span>{{ issue.assignee }}</span>
+          </div>
+          <div class="flex items-center gap-2 text-xs text-gray-500">
+            <i class="pi pi-calendar text-green-500"></i>
+            <span>{{ issue.creationDate | date : 'shortDate' }}</span>
+          </div>
+        </div>
+
+        <!-- Issue Actions -->
+        <div class="flex gap-2 pt-2 border-t border-gray-100">
+          <button
+            type="button"
+            class="flex-1 text-xs bg-blue-500 text-white py-2 px-3 rounded hover:bg-blue-600 transition-colors duration-200"
+            (click)="viewIssueDetails(issue.id)"
+          >
+            View
+          </button>
+          <button
+            type="button"
+            class="text-xs bg-red-500 text-white py-2 px-3 rounded hover:bg-red-600 transition-colors duration-200"
+            (click)="deleteIssue(issue.id, issue.title)"
+            title="Delete Issue"
+          >
+            <i class="pi pi-trash"></i>
+          </button>
+        </div>
+      </div>
+      }
+
+      <!-- Empty State for Column -->
+      @if (getIssuesByStatus(column.key).length === 0) {
+      <div class="text-center py-8 text-gray-400">
+        <i class="pi pi-inbox text-2xl mb-2"></i>
+        <p class="text-sm">No issues</p>
+      </div>
+      }
+    </div>
+  </div>
+  }
+</div>
