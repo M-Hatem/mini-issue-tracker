@@ -17,7 +17,7 @@ export class IssuesService {
 
   searchAndFilterIssues(
     searchTerm: string,
-    status: string,
+    statuses: string[],
     offset: number = 0,
     limit: number = 12
   ): Observable<Issue[]> {
@@ -29,8 +29,10 @@ export class IssuesService {
       httpParams = httpParams.set('title_like', searchTerm.trim());
     }
 
-    if (status && status !== 'All') {
-      httpParams = httpParams.set('status', status);
+    if (statuses && statuses.length > 0) {
+      statuses.forEach((status) => {
+        httpParams = httpParams.append('status', status);
+      });
     }
 
     return this.http.get<Issue[]>(this.apiUrl, { params: httpParams });

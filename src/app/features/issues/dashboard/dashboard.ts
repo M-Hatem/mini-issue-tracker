@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { IssueFiltration } from '../issue-filtration/issue-filtration';
@@ -27,7 +27,7 @@ export class Dashboard implements OnInit {
   protected readonly hasMoreIssues = signal(true);
   protected readonly loadingMore = signal(false);
   protected readonly searchTerm = signal('');
-  protected readonly statusFilter = signal('All');
+  protected readonly statusFilter = signal<string[]>([]);
 
   ngOnInit(): void {
     this.loadIssues();
@@ -46,8 +46,8 @@ export class Dashboard implements OnInit {
     this.loadIssues();
   }
 
-  protected onStatusFilterChange(status: string): void {
-    this.statusFilter.set(status);
+  protected onStatusFilterChange(statuses: string[]): void {
+    this.statusFilter.set(statuses);
     this.currentOffset.set(0);
     this.hasMoreIssues.set(true);
     this.loadIssues();
@@ -55,7 +55,7 @@ export class Dashboard implements OnInit {
 
   protected clearFilters(): void {
     this.searchTerm.set('');
-    this.statusFilter.set('All');
+    this.statusFilter.set([]);
     this.currentOffset.set(0);
     this.hasMoreIssues.set(true);
     this.loadIssues();

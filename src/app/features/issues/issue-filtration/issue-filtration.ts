@@ -1,4 +1,4 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -8,12 +8,29 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './issue-filtration.scss',
 })
 export class IssueFiltration {
-  statusChange = output<string>();
+  statusChange = output<string[]>();
+  statuses = input<string[]>([]);
 
-  protected readonly selectedStatus = signal('All');
+  protected readonly selectedStatuses = signal<string[]>([]);
+  protected readonly availableStatuses = ['To Do', 'In Progress', 'Done'];
 
-  protected onStatusChange(status: string): void {
-    this.selectedStatus.set(status);
-    this.statusChange.emit(status);
+  constructor() {
+    effect(() => {
+      this.selectedStatuses.set(this.statuses());
+    });
+  }
+
+  protected onStatusChange(status: string, checked: boolean): void {
+    if (checked) {
+      this.selectedStatuses.update((statuses) => [...statuses, status]);
+    } else {
+      this.selectedStatuses.update((statuses) => statuses.filter((s) => s !== status));
+    }
+
+    this.statusChange.emit(this.selectedStatuses());
+  }
+
+  protected isStatusSelected(status: string): boolean {
+    return this.selectedStatuses().includes(status);
   }
 }
