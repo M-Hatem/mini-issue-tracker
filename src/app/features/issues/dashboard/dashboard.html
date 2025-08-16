@@ -42,9 +42,11 @@
           <div class="flex gap-3 justify-end">
             <button
               type="button"
-              (click)="loadIssues()"
+              (click)="viewMode() === 'list' ? loadIssues() : loadAllIssues()"
               class="bg-green-500 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-              aria-label="Refresh issues list"
+              [attr.aria-label]="
+                viewMode() === 'list' ? 'Refresh issues list' : 'Refresh all issues'
+              "
             >
               <i class="pi pi-refresh" aria-hidden="true"></i>
               <span>Refresh</span>
@@ -90,7 +92,7 @@
             <legend class="sr-only">Select view mode</legend>
             <button
               type="button"
-              (click)="toggleViewMode()"
+              (click)="toggleViewMode('list')"
               [attr.aria-pressed]="viewMode() === 'list'"
               class="px-3 sm:px-4 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {{
                 viewMode() === 'list'
@@ -104,7 +106,7 @@
             </button>
             <button
               type="button"
-              (click)="toggleViewMode()"
+              (click)="toggleViewMode('kanban')"
               [attr.aria-pressed]="viewMode() === 'kanban'"
               class="px-3 sm:px-4 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {{
                 viewMode() === 'kanban'
@@ -125,13 +127,21 @@
       <div class="mb-4">
         <div class="flex items-center justify-between">
           <p class="text-gray-600" role="status" aria-live="polite">
-            @if (searchTerm() && searchTerm().trim()) { @if (statusFilter().length > 0) { Showing
-            {{ issues().length }} search results for "{{ searchTerm() }}" with statuses "{{
+            @if (viewMode() === 'list') { @if (searchTerm() && searchTerm().trim()) { @if
+            (statusFilter().length > 0) { Showing {{ issues().length }} search results for "{{
+              searchTerm()
+            }}" with statuses "{{ statusFilter().join(', ') }}" } @else { Showing
+            {{ issues().length }} search results for "{{ searchTerm() }}" } } @else if
+            (statusFilter().length > 0) { Showing {{ issues().length }} issues with statuses "{{
               statusFilter().join(', ')
-            }}" } @else { Showing {{ issues().length }} search results for "{{ searchTerm() }}" } }
-            @else if (statusFilter().length > 0) { Showing {{ issues().length }} issues with
-            statuses "{{ statusFilter().join(', ') }}" } @else { Showing
-            {{ issues().length }} issues }
+            }}" } @else { Showing {{ issues().length }} issues } } @else { @if (searchTerm() &&
+            searchTerm().trim()) { @if (statusFilter().length > 0) { Showing all
+            {{ issues().length }} issues matching "{{ searchTerm() }}" with statuses "{{
+              statusFilter().join(', ')
+            }}" } @else { Showing all {{ issues().length }} issues matching "{{ searchTerm() }}" } }
+            @else if (statusFilter().length > 0) { Showing all {{ issues().length }} issues with
+            statuses "{{ statusFilter().join(', ') }}" } @else { Showing all
+            {{ issues().length }} issues } }
           </p>
           @if ((searchTerm() && searchTerm().trim()) || statusFilter().length > 0) {
           <button
@@ -154,7 +164,9 @@
           class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"
           aria-hidden="true"
         ></div>
-        <span class="ml-3 text-gray-600">Loading issues...</span>
+        <span class="ml-3 text-gray-600">
+          {{ viewMode() === 'list' ? 'Loading issues...' : 'Loading all issues...' }}
+        </span>
       </div>
       }
 
@@ -170,8 +182,10 @@
         </div>
         <button
           class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-          (click)="loadIssues()"
-          aria-label="Try loading issues again"
+          (click)="viewMode() === 'list' ? loadIssues() : loadAllIssues()"
+          [attr.aria-label]="
+            viewMode() === 'list' ? 'Try loading issues again' : 'Try loading all issues again'
+          "
         >
           Try Again
         </button>

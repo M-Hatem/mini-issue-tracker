@@ -35,7 +35,12 @@ export class Dashboard implements OnInit {
 
   ngOnInit(): void {
     this.initilaizeQueryParams();
-    this.loadIssues();
+
+    if (this.viewMode() === 'list') {
+      this.loadIssues();
+    } else {
+      this.loadAllIssues();
+    }
   }
 
   private initilaizeQueryParams(): void {
@@ -66,17 +71,27 @@ export class Dashboard implements OnInit {
   protected onSearchChange(searchValue: string): void {
     this.searchTerm.set(searchValue);
     this.updateUrlQueryParams();
-    this.currentOffset.set(0);
-    this.hasMoreIssues.set(true);
-    this.loadIssues();
+
+    if (this.viewMode() === 'list') {
+      this.currentOffset.set(0);
+      this.hasMoreIssues.set(true);
+      this.loadIssues();
+    } else {
+      this.loadAllIssues();
+    }
   }
 
   protected onStatusFilterChange(statuses: string[]): void {
     this.statusFilter.set(statuses);
     this.updateUrlQueryParams();
-    this.currentOffset.set(0);
-    this.hasMoreIssues.set(true);
-    this.loadIssues();
+
+    if (this.viewMode() === 'list') {
+      this.currentOffset.set(0);
+      this.hasMoreIssues.set(true);
+      this.loadIssues();
+    } else {
+      this.loadAllIssues();
+    }
   }
 
   private updateUrlQueryParams(): void {
@@ -103,32 +118,44 @@ export class Dashboard implements OnInit {
     this.searchTerm.set('');
     this.statusFilter.set([]);
     this.updateUrlQueryParams();
-    this.currentOffset.set(0);
-    this.hasMoreIssues.set(true);
-    this.loadIssues();
+
+    if (this.viewMode() === 'list') {
+      this.currentOffset.set(0);
+      this.hasMoreIssues.set(true);
+      this.loadIssues();
+    } else {
+      this.loadAllIssues();
+    }
   }
 
   protected onIssueDeleted(issueId: number): void {
     this.issues.update((currentIssues) => currentIssues.filter((issue) => issue.id !== issueId));
 
-    if (this.issues().length < this.pageSize() && this.hasMoreIssues()) {
+    if (
+      this.viewMode() === 'list' &&
+      this.issues().length < this.pageSize() &&
+      this.hasMoreIssues()
+    ) {
       this.loadMoreIssues();
     }
   }
 
-  protected toggleViewMode(): void {
-    this.viewMode.update((currentMode) => {
-      const newMode = currentMode === 'list' ? 'kanban' : 'list';
+  protected toggleViewMode(mode: 'list' | 'kanban'): void {
+    this.viewMode.set(mode);
 
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { view: newMode },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-      });
-
-      return newMode;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { view: mode },
+      replaceUrl: true,
     });
+
+    if (mode === 'list') {
+      this.currentOffset.set(0);
+      this.hasMoreIssues.set(true);
+      this.loadIssues();
+    } else {
+      this.loadAllIssues();
+    }
   }
 
   protected createNewIssue(): void {
@@ -167,6 +194,52 @@ export class Dashboard implements OnInit {
           this.loading.set(false);
         },
       });
+  }
+
+  protected loadAllIssues(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
+    const searchTerm = this.searchTerm();
+    const statusFilter = this.statusFilter();
+
+    if (!searchTerm && (!statusFilter || statusFilter.length === 0)) {
+      this.issuesService.getIssues().subscribe({
+        next: (allIssues) => {
+          this.issues.set(allIssues);
+          this.loading.set(false);
+        },
+        error: (err) => {
+          console.error('Error loading all issues:', err);
+          this.error.set('Failed to load all issues. Please try again later.');
+          this.loading.set(false);
+        },
+      });
+    } else {
+      this.issuesService.getIssues().subscribe({
+        next: (allIssues) => {
+          let filteredIssues = allIssues;
+
+          if (searchTerm && searchTerm.trim()) {
+            filteredIssues = filteredIssues.filter((issue) =>
+              issue.title.toLowerCase().includes(searchTerm.toLowerCase().trim())
+            );
+          }
+
+          if (statusFilter && statusFilter.length > 0) {
+            filteredIssues = filteredIssues.filter((issue) => statusFilter.includes(issue.status));
+          }
+
+          this.issues.set(filteredIssues);
+          this.loading.set(false);
+        },
+        error: (err) => {
+          console.error('Error loading all issues:', err);
+          this.error.set('Failed to load all issues. Please try again later.');
+          this.loading.set(false);
+        },
+      });
+    }
   }
 
   private loadMoreIssues(): void {
