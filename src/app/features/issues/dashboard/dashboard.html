@@ -6,13 +6,14 @@
   (scrolled)="onScroll()"
 >
   <div class="max-w-7xl mx-auto px-4">
+    <!-- Header Section -->
     <section class="mb-8">
-      <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-bold text-gray-900">Issue Tracker Dashboard</h1>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Issue Tracker Dashboard</h1>
         <button
           type="button"
           (click)="createNewIssue()"
-          class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          class="bg-blue-600 cursor-pointer text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Create new issue"
         >
           <i class="pi pi-plus" aria-hidden="true"></i>
@@ -21,10 +22,12 @@
       </div>
     </section>
 
+    <!-- Search and Filter Section -->
     <section class="mb-6">
       <form class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-end">
-          <div class="lg:col-start-2">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <!-- Search Input -->
+          <div class="md:col-start-2">
             <label for="search-input" class="sr-only">Search issues by title</label>
             <app-search-input
               id="search-input"
@@ -35,11 +38,12 @@
             />
           </div>
 
+          <!-- Action Buttons -->
           <div class="flex gap-3 justify-end">
             <button
               type="button"
               (click)="loadIssues()"
-              class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              class="bg-green-500 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
               aria-label="Refresh issues list"
             >
               <i class="pi pi-refresh" aria-hidden="true"></i>
@@ -50,7 +54,7 @@
               (click)="isFilterOpen.set(!isFilterOpen())"
               [attr.aria-expanded]="isFilterOpen()"
               [attr.aria-controls]="'filter-panel'"
-              class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+              class="bg-gray-500 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
               aria-label="Toggle filter panel"
             >
               <i class="pi pi-filter" aria-hidden="true"></i>
@@ -77,9 +81,10 @@
       </form>
     </section>
 
+    <!-- View Toggle Section -->
     <section class="p-4 bg-white rounded-md shadow-sm border border-gray-200">
-      <div class="flex items-center justify-between">
-        <h2 class="text-xl font-semibold text-gray-800">Issues</h2>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Issues</h2>
         <div class="flex items-center gap-3">
           <fieldset class="flex bg-gray-100 rounded-lg p-1">
             <legend class="sr-only">Select view mode</legend>
@@ -87,7 +92,7 @@
               type="button"
               (click)="toggleViewMode()"
               [attr.aria-pressed]="viewMode() === 'list'"
-              class="px-4 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {{
+              class="px-3 sm:px-4 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {{
                 viewMode() === 'list'
                   ? 'bg-white text-blue-600 shadow-sm'
                   : 'text-gray-600 hover:text-gray-800'
@@ -101,7 +106,7 @@
               type="button"
               (click)="toggleViewMode()"
               [attr.aria-pressed]="viewMode() === 'kanban'"
-              class="px-4 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {{
+              class="px-3 sm:px-4 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {{
                 viewMode() === 'kanban'
                   ? 'bg-white text-blue-600 shadow-sm'
                   : 'text-gray-600 hover:text-gray-800'
