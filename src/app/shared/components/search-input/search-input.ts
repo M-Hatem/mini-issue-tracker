@@ -11,17 +11,14 @@ import { Subject } from 'rxjs';
 })
 export class SearchInput {
   searchChange = output<string>();
-
-  resetSearch = input<string>('');
+  searchTerm = input<string>('');
 
   private searchSubject = new Subject<string>();
   protected readonly searchValue = signal('');
 
   constructor() {
     effect(() => {
-      const resetValue = this.resetSearch();
-
-      if (resetValue === '') this.searchValue.set('');
+      this.searchValue.set(this.searchTerm());
     });
 
     this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe((searchTerm) => {

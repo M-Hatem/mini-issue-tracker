@@ -1,5 +1,5 @@
 import { Component, input, inject, output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Issue } from '../../../core/models/issue.interface';
 import { DatePipe } from '@angular/common';
 import { IssuesService } from '../../../core/api/issues.service';
@@ -12,13 +12,18 @@ import { IssuesService } from '../../../core/api/issues.service';
 })
 export class List {
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly issuesService = inject(IssuesService);
   readonly issues = input.required<Issue[]>();
 
   issueDeleted = output<number>();
 
   protected viewIssueDetails(issueId: number): void {
-    this.router.navigate(['/issues', issueId]);
+    const viewMode = this.route.snapshot.queryParams['view'];
+
+    this.router.navigate(['/issues', issueId], {
+      queryParams: { view: viewMode || 'list' },
+    });
   }
 
   protected deleteIssue(issueId: number, issueTitle: string): void {

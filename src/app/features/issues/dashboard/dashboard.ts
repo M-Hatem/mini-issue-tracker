@@ -34,7 +34,27 @@ export class Dashboard implements OnInit {
   protected readonly viewMode = signal<'list' | 'kanban'>('list');
 
   ngOnInit(): void {
+    this.initilaizeQueryParams();
     this.loadIssues();
+  }
+
+  private initilaizeQueryParams(): void {
+    const params = this.route.snapshot.queryParams;
+    const viewMode = params['view'] as 'list' | 'kanban';
+
+    this.viewMode.set(viewMode || 'list');
+
+    const searchTerm = params['search'] as string;
+    const statusFilter =
+      typeof params['status'] === 'string' ? [params['status']] : params['status'];
+
+    if (searchTerm) {
+      this.searchTerm.set(searchTerm);
+    }
+
+    if (statusFilter && statusFilter.length > 0) {
+      this.statusFilter.set(statusFilter);
+    }
   }
 
   protected onScroll(): void {
@@ -45,6 +65,7 @@ export class Dashboard implements OnInit {
 
   protected onSearchChange(searchValue: string): void {
     this.searchTerm.set(searchValue);
+    this.updateUrlQueryParams();
     this.currentOffset.set(0);
     this.hasMoreIssues.set(true);
     this.loadIssues();
@@ -52,14 +73,36 @@ export class Dashboard implements OnInit {
 
   protected onStatusFilterChange(statuses: string[]): void {
     this.statusFilter.set(statuses);
+    this.updateUrlQueryParams();
     this.currentOffset.set(0);
     this.hasMoreIssues.set(true);
     this.loadIssues();
   }
 
+  private updateUrlQueryParams(): void {
+    const queryParams: Record<string, string | string[]> = {
+      view: this.viewMode(),
+    };
+
+    if (this.searchTerm()) {
+      queryParams['search'] = this.searchTerm();
+    }
+
+    if (this.statusFilter().length > 0) {
+      queryParams['status'] = this.statusFilter();
+    }
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      replaceUrl: true,
+    });
+  }
+
   protected clearFilters(): void {
     this.searchTerm.set('');
     this.statusFilter.set([]);
+    this.updateUrlQueryParams();
     this.currentOffset.set(0);
     this.hasMoreIssues.set(true);
     this.loadIssues();

@@ -11,33 +11,6 @@
           <i class="pi pi-arrow-left"></i>
           <span>Back to Issues List</span>
         </button>
-
-        <div class="flex bg-gray-100 rounded-lg p-1">
-          <button
-            type="button"
-            (click)="setViewMode('list')"
-            class="px-3 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 {{
-              currentViewMode() === 'list'
-                ? 'bg-white text-blue-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-800'
-            }}"
-          >
-            <i class="pi pi-list"></i>
-            List
-          </button>
-          <button
-            type="button"
-            (click)="setViewMode('kanban')"
-            class="px-3 py-2 cursor-pointer text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-2 {{
-              currentViewMode() === 'kanban'
-                ? 'bg-white text-blue-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-800'
-            }}"
-          >
-            <i class="pi pi-th-large"></i>
-            Kanban
-          </button>
-        </div>
       </div>
     </div>
 
